@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 export default class Login extends Component {
@@ -25,11 +24,18 @@ export default class Login extends Component {
 
     axios.post('http://localhost:3001', {name, password})
     .then(response => {
-      console.log(response.data)
       if (response.data.status === 'error') {
         return this.setState({ loginWarning: response.data.message, loginStatus: false})
       }
-      return this.props.history.push('/user') 
+
+      const token = response.data.token
+      localStorage.setItem('token', token)
+      
+      if (response.data.user.type === 'user') {
+        return this.props.history.push('/user') 
+      } else if (response.data.user.type === 'admin') {
+        return this.props.history.push('/admin') 
+      }
     })
     .catch(err => console.log(err))
   } 

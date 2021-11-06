@@ -8,5 +8,5 @@ module.exports = (user) => {
 
   const signToken = jwt.sign(payload, TOKEN_KEY)
 
-  return { token: signToken }
+  return signToken
 }
