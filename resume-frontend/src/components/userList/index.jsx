@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import UserModal from './userModal'
 
 
 export default class UserList extends Component {
@@ -7,7 +8,10 @@ export default class UserList extends Component {
     users: [], 
     user: {}, 
     token: '',
-    systemIssue: false
+    systemIssue: false,
+    open: false,
+    addUser: false,
+    targetID: ''
    }
   
   componentDidMount () {
@@ -53,8 +57,13 @@ export default class UserList extends Component {
     return this.setState({ systemIssue: false })
   }
 
+  handleSubmit = e => {
+    e.preventDefault()
+    
+  }
+
   render() {
-    const { users, user, systemIssue } = this.state
+    const { users, user, systemIssue, open, addUser } = this.state
     return (
       <div>
         <div style={{ display: systemIssue ? 'table-cell' : 'none' }}>
@@ -81,7 +90,9 @@ export default class UserList extends Component {
                     <td>{ item.name }</td>
                     <td>{ item.role }</td>
                     <td>{ item.isActive }</td>
-                    <td onClick={this.editItem} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}><i className="far fa-edit"></i></td>
+
+                    <td onClick={() => this.setState({ open: true, addUser: false, targetID: item.id })} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}><i className="far fa-edit"></i></td>
+
                     <td onClick={this.deleteItem} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }} data-id={item.id}><i className="fas fa-trash-alt" data-id={item.id}></i></td>
                   </tr>
                 )
@@ -89,6 +100,8 @@ export default class UserList extends Component {
             }
           </tbody>
         </table>
+        <button onClick={() => this.setState({ open: true, addUser: true })} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>Add <i className="fas fa-plus"></i></button>
+        <UserModal open={open} btn={addUser} onClose={() => this.setState({ open: false })}/>
       </div>
     )
   }
