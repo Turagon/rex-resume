@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import UserModal from './userModal'
+import './userList.css'
 
 
 export default class UserList extends Component {
+  // users --> users data got from api
+  // user --> user data got from api
+  // systemIssue --> control the warning display when api server is not able to response normally
+  // open --> control modal display
+  // addUser --> control modal submit button display
+  // targetID --> indicate id of data that being edited 
   state = { 
     users: [], 
     user: {}, 
@@ -11,7 +18,15 @@ export default class UserList extends Component {
     systemIssue: false,
     open: false,
     addUser: false,
-    targetID: ''
+    formData: {
+      id: '',
+      name: '',
+      password: '',
+      checkPassword: '',
+      role: '',
+      isActive: '',
+      language: ''
+    }
    }
   
   componentDidMount () {
@@ -57,15 +72,10 @@ export default class UserList extends Component {
     return this.setState({ systemIssue: false })
   }
 
-  handleSubmit = e => {
-    e.preventDefault()
-    
-  }
-
   render() {
-    const { users, user, systemIssue, open, addUser } = this.state
+    const { users, user, systemIssue, open, addUser, formData } = this.state
     return (
-      <div>
+      <div className="user-table">
         <div style={{ display: systemIssue ? 'table-cell' : 'none' }}>
           <span>Oops! Our system got some difficulties, please try later.</span>
           <button onClick={this.changeWarningDisplay}>X</button>
@@ -89,9 +99,9 @@ export default class UserList extends Component {
                     <td>{ item.id }</td>
                     <td>{ item.name }</td>
                     <td>{ item.role }</td>
-                    <td>{ item.isActive }</td>
+                    <td>{ item.isActive? 'true': 'false' }</td>
 
-                    <td onClick={() => this.setState({ open: true, addUser: false, targetID: item.id })} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}><i className="far fa-edit"></i></td>
+                    <td onClick={() => this.setState({ open: true, addUser: false, formData: { id: item.id, name: item.name, role: item.role, isActive: item.isActive, language: item.language } })} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}><i className="far fa-edit"></i></td>
 
                     <td onClick={this.deleteItem} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }} data-id={item.id}><i className="fas fa-trash-alt" data-id={item.id}></i></td>
                   </tr>
@@ -100,8 +110,8 @@ export default class UserList extends Component {
             }
           </tbody>
         </table>
-        <button onClick={() => this.setState({ open: true, addUser: true })} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>Add <i className="fas fa-plus"></i></button>
-        <UserModal open={open} btn={addUser} onClose={() => this.setState({ open: false })}/>
+        <button onClick={() => this.setState({ open: true, addUser: true })} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }} className="add-btn">Add <i className="fas fa-plus"></i></button>
+        <UserModal open={open} onClose={() => this.setState({ open: false })} addUser={addUser} userInfo={ addUser? '': formData }/>
       </div>
     )
   }

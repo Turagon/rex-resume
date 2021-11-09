@@ -8,10 +8,10 @@ const userController = {
       const user = req.user.toJSON()
       if (role === 'user') {
         const id = req.user.id
-        const users = await User.findAll({ where: { id }, raw: true })
+        const users = await User.findAll({ where: { id } })
         return res.json({ users, user })
       } else {
-        const users = await User.findAll({ raw: true })
+        const users = await User.findAll()
         return res.json({ users, user })
       }
     }

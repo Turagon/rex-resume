@@ -1,0 +1,76 @@
+.login {
+  width: 50%;
+  height: 400px;
+  margin: 80px 25%;
+  padding: 10px 3%;
+  border-radius: 10px;
+  background-color: #fefffa;
+}
+
+.login:hover {
+  box-shadow: 2px 8px 12px rgba(0, 53, 102, 0.5);
+}
+
+.login h3 {
+  text-align: center;
+  color: #1d3557;
+}
+
+.input-name-box, .input-password-box {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-name-box label, .input-password-box label {
+  font-size: 14px;
+  color: grey;
+}
+
+.input-name-box i, .input-password-box i {
+  margin: 0 5px;
+}
+
+.input-name-box input, .input-password-box input {
+  height: 25px;
+  margin: 5px 0;
+  padding: 2px 5px;
+  border: none;
+  background-color: rgba(29, 53, 87, 0.1);
+}
+
+.input-name-box span, .input-password-box span {
+  height: 15px;
+  font-size: 12px;
+  color: red;
+  padding: 2px 5px;
+  border: none;
+}
+
+.login-form button {
+  margin-top: 20px;
+  margin-left: 35%;
+  width: 30%;
+  height: 25px;
+  color: white;
+  background-color: yellowgreen;
+  border-radius: 4px;
+  border: none;
+}
+
+.login-warning {
+  width: 300px;
+  margin: 0 auto;
+  padding: 2px 5px;
+  font-size: 14px;
+  color: red;
+  border: 1.5px red solid;
+  border-radius: 4px;
+}
+
+.login-warning button {
+  margin-left: 60px;
+  font-weight: bold;
+  background-color: white;
+  border: none;
+}

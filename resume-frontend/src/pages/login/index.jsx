@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import './login.css'
 
 export default class Login extends Component {
   state = {
@@ -34,7 +35,7 @@ export default class Login extends Component {
       if (response.data.user.type === 'user') {
         return this.props.history.push('/user') 
       } else if (response.data.user.type === 'admin') {
-        return this.props.history.push('/admin') 
+        return this.props.history.push('/admin/user') 
       }
     })
     .catch(err => console.log(err))
@@ -55,21 +56,25 @@ export default class Login extends Component {
 
     return (
       <div className="login">
-        <h5>Thank you for visiting my resume</h5>
-        <div style={{ display: loginStatus ? 'none' : 'block' }}>
+        <h3>Thank you for visiting my resume</h3>
+        <div style={{ display: loginStatus ? 'none' : 'block' }} className="login-warning">
           <span>{loginWarning}</span>
           <button onClick={() => this.setState({loginStatus: true})}>X</button>
         </div>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="#input-name">Name</label>
-          <input onChange={ this.handleNameChange } onFocus={() => this.setState({nameWarning: false})} type="text" maxLength="40" id="input-name" name="name"/>
-          <span style={{ display: nameWarning ? 'block' : 'none' }}>name can't be empty</span>
+        <form onSubmit={this.handleSubmit} className="login-form">
+          <div className="input-name-box">
+            <label htmlFor="input-name"><i className="far fa-user"></i>Name</label>
+            <input onChange={ this.handleNameChange } onFocus={() => this.setState({nameWarning: false})} type="text" maxLength="40" id="input-name" name="name" placeholder="case sensitive"/>
+            <span style={{ display: nameWarning ? 'block' : 'none' }}>name can't be empty</span>
+          </div>
 
-          <label htmlFor="#input-password">Password</label>
-          <input onChange={this.handlePasswordChange} onFocus={() => this.setState({ passwordWarning: false })} type="text" maxLength="40" id="input-password" name="password"/>
-          <span style={{ display: passwordWarning ? 'block' : 'none' }}>password can't be empty</span>
+          <div className="input-password-box">
+            <label htmlFor="input-password"><i className="fas fa-key"></i>Password</label>
+            <input onChange={this.handlePasswordChange} onFocus={() => this.setState({ passwordWarning: false })} type="text" maxLength="40" id="input-password" name="password" placeholder="case sensitive"/>
+            <span style={{ display: passwordWarning ? 'block' : 'none' }}>password can't be empty</span>
+          </div>
 
-          <button type="submit">Submit</button>
+          <button type="submit" className="signin-btn">Submit</button>
         </form>
       </div>
     )
