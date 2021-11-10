@@ -12,32 +12,35 @@ const loginController = {
       return res.json({ status: 'error', message: "name or password can't be empty" })
     }
 
-    const user = await User.findOne({
-      where: { name },
-      raw: true
-    })
-
-    if (!user) {
-      return res.json({ status: 'error', message: 'Username or password incorrect' })
-    }
-
-    // check password
-    if (!bcrypt.compareSync(inputPassword, user.password)) {
-      return res.json({ status: 'error', message: 'Username or password incorrect' })
-    }
-
-    // sign token
-    const token = issueJwt(user)
-    return res.json({
-      status: 'success',
-      message: 'ok',
-      token,
-      user: {
-        id: user.id,
-        name: user.name,
-        type: user.role
+    try {
+      const user = await User.findOne({
+        where: { name },
+        raw: true
+      })
+  
+      if (!user) {
+        return res.json({ status: 'error', message: 'Username or password incorrect' })
       }
-    })
+  
+      // check password
+      if (!bcrypt.compareSync(inputPassword, user.password)) {
+        return res.json({ status: 'error', message: 'Username or password incorrect' })
+      }
+  
+      // sign token
+      const token = issueJwt(user)
+      return res.json({
+        status: 'success',
+        message: 'ok',
+        token,
+        user: {
+          id: user.id,
+          name: user.name,
+          type: user.role
+        }
+      })
+    }
+    catch { err => console.log(err) }
   }
 }
 

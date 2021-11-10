@@ -88,3 +88,22 @@
   color: white;
   background-color: #ff6600;
 }
+
+/* for message container */
+.error-message {
+  margin-top: 10px;
+  margin-left: 50%;
+  padding: 0 0 0 6px;
+  transform: translateX(-50%);
+  background-color: white;
+  color: red;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid red;
+  border-radius: 4px;
+}
+
+.error-message button {
+  border: none;
+  background-color: white;
+}

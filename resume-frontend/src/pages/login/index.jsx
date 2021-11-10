@@ -8,7 +8,7 @@ export default class Login extends Component {
     password: '',
     nameWarning: false,
     passwordWarning: false,
-    loginStatus: true,
+    displayStatus: true,
     loginWarning: ''
   }
 
@@ -26,7 +26,7 @@ export default class Login extends Component {
     axios.post('http://localhost:3001', {name, password})
     .then(response => {
       if (response.data.status === 'error') {
-        return this.setState({ loginWarning: response.data.message, loginStatus: false})
+        return this.setState({ loginWarning: response.data.message, displayStatus: false})
       }
 
       const token = response.data.token
@@ -52,14 +52,14 @@ export default class Login extends Component {
   }
 
   render() {
-    const { nameWarning, passwordWarning, loginWarning, loginStatus } = this.state
+    const { nameWarning, passwordWarning, loginWarning, displayStatus } = this.state
 
     return (
       <div className="login">
         <h3>Thank you for visiting my resume</h3>
-        <div style={{ display: loginStatus ? 'none' : 'block' }} className="login-warning">
+        <div style={{ display: displayStatus ? 'none' : 'block' }} className="login-warning">
           <span>{loginWarning}</span>
-          <button onClick={() => this.setState({loginStatus: true})}>X</button>
+          <button onClick={() => this.setState({displayStatus: true})}>X</button>
         </div>
         <form onSubmit={this.handleSubmit} className="login-form">
           <div className="input-name-box">

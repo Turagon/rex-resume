@@ -26,7 +26,9 @@ export default class UserList extends Component {
       role: '',
       isActive: '',
       language: ''
-    }
+    },
+    errorMessage: '',
+    displayStatus: true
    }
   
   componentDidMount () {
@@ -72,46 +74,56 @@ export default class UserList extends Component {
     return this.setState({ systemIssue: false })
   }
 
+  handleError = (error) => {
+    return this.setState({ errorMessage: error, displayStatus: false })
+  }
+
   render() {
-    const { users, user, systemIssue, open, addUser, formData } = this.state
+    const { users, user, systemIssue, open, addUser, formData, errorMessage, displayStatus } = this.state
     return (
-      <div className="user-table">
-        <div style={{ display: systemIssue ? 'table-cell' : 'none' }}>
-          <span>Oops! Our system got some difficulties, please try later.</span>
-          <button onClick={this.changeWarningDisplay}>X</button>
+      <div>
+        <div className="error-message" style={{ display: displayStatus ? 'none' : 'block' }}>
+          <span>{errorMessage}</span>
+          <button type="button" onClick={() => this.setState({ displayStatus: true })}>X</button>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>id</th>
-              <th>name</th>
-              <th>role</th>
-              <th>isActive</th>
-              <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>edit</th>
-              <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              users.map(item => {
-                return (
-                  <tr key={ item.id }>
-                    <td>{ item.id }</td>
-                    <td>{ item.name }</td>
-                    <td>{ item.role }</td>
-                    <td>{ item.isActive? 'true': 'false' }</td>
+        <div className="user-table">
+          <div style={{ display: systemIssue ? 'table-cell' : 'none' }}>
+            <span>Oops! Our system got some difficulties, please try later.</span>
+            <button onClick={this.changeWarningDisplay}>X</button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>role</th>
+                <th>isActive</th>
+                <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>edit</th>
+                <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                users.map(item => {
+                  return (
+                    <tr key={ item.id }>
+                      <td>{ item.id }</td>
+                      <td>{ item.name }</td>
+                      <td>{ item.role }</td>
+                      <td>{ item.isActive? 'true': 'false' }</td>
 
-                    <td onClick={() => this.setState({ open: true, addUser: false, formData: { id: item.id, name: item.name, role: item.role, isActive: item.isActive, language: item.language } })} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}><i className="far fa-edit"></i></td>
+                      <td onClick={() => this.setState({ open: true, addUser: false, formData: { id: item.id, name: item.name, role: item.role, isActive: item.isActive, language: item.language } })} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}><i className="far fa-edit"></i></td>
 
-                    <td onClick={this.deleteItem} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }} data-id={item.id}><i className="fas fa-trash-alt" data-id={item.id}></i></td>
-                  </tr>
-                )
-              })
-            }
-          </tbody>
-        </table>
-        <button onClick={() => this.setState({ open: true, addUser: true })} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }} className="add-btn">Add <i className="fas fa-plus"></i></button>
-        <UserModal open={open} onClose={() => this.setState({ open: false })} addUser={addUser} userInfo={ addUser? '': formData }/>
+                      <td onClick={this.deleteItem} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }} data-id={item.id}><i className="fas fa-trash-alt" data-id={item.id}></i></td>
+                    </tr>
+                  )
+                })
+              }
+            </tbody>
+          </table>
+          <button onClick={() => this.setState({ open: true, addUser: true })} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }} className="add-btn">Add <i className="fas fa-plus"></i></button>
+          <UserModal open={open} onClose={() => this.setState({ open: false })} addUser={addUser} userInfo={ addUser? '': formData } handleError={this.handleError}/>
+        </div>
       </div>
     )
   }

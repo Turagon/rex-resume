@@ -1,29 +1,87 @@
+import axios from 'axios';
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
 
 
 export default class UserModal extends Component {
   state = {
-    id: this.props.userInfo.id || '',
-    name: this.props.userInfo.name || '',
-    role: this.props.userInfo.role || '',
-    isActive: this.props.userInfo.isActive || '',
-    password: this.props.userInfo.password || '',
-    checkPassword: this.props.userInfo.checkPassword || '',
-    language: this.props.userInfo.language || ''
+    id: '',
+    name: '',
+    role: '',
+    isActive: '',
+    password: '',
+    checkPassword: '',
+    language: '',
+    errorMessage: '',
+    displayStatus: true
   }
 
   handleSubmit = e => {
     e.preventDefault()
-    this.props.onClose()
-    console.log('===', e)
+    const { id, name, role, isActive, password, checkPassword, language } = this.state
+    const { handleError } = this.props
+    if (!name || !role || !language) {
+      return this.setState({errorMessage: "there's column missed, please check", displayStatus: false})
+    }
+    if (!password || (password !== checkPassword)) {
+      return this.setState({errorMessage: "password inputs are not matched", displayStatus: false})
+    }
+    if (id) {
+      const token = localStorage.getItem('token')
+      axios({
+        method: 'put',
+        url: `http://localhost:3001/user/${id}`,
+        headers: { Authorization: `Bearer ${token}` },
+        data: {
+          name: name,
+          role: role,
+          isActive: isActive,
+          password: password,
+          checkPassword: checkPassword,
+          language: language
+        }
+      })
+      .then(response => {
+        if (response.data.status === 'error') {
+          const error = response.data.message
+          this.props.onClose()
+          return handleError(error)
+        }
+        this.props.onClose()
+        return window.location.reload(true)
+      })
+      .catch(err => console.log(err))
+    } else {
+      const token = localStorage.getItem('token')
+      axios({
+        method: 'post',
+        url: `http://localhost:3001/user`,
+        headers: { Authorization: `Bearer ${token}` },
+        data: {
+          name: name,
+          role: role,
+          isActive: isActive,
+          password: password,
+          checkPassword: checkPassword,
+          language: language
+        }
+      })
+        .then(response => {
+          if (response.data.status === 'error') {
+            const error = response.data.message
+            this.props.onClose()
+            return handleError(error)
+          }
+          this.props.onClose()
+          return window.location.reload(true)
+        })
+        .catch(err => console.log(err))
+    }
   }
 
   static getDerivedStateFromProps (props, state) {
-    const { addUser, userInfo } = props
-    if (addUser || !userInfo.id) {
-      return ({ id: '', name: '', role: '', isActive: '', password: '', checkPassword: '', language: '' })
-    } else if (userInfo.id !== state.id) {
+    const { userInfo } = props
+    if (userInfo.id && (userInfo.id !== state.id)) {
       return ({ ...userInfo })
     } else {
       return ({ ...state })
@@ -31,7 +89,7 @@ export default class UserModal extends Component {
   }
 
   handleSelect = () => {
-    const { value } = this.Select
+    const value = this.Select.value === 'true'
     this.setState({ isActive: value })
   }
 
@@ -41,19 +99,23 @@ export default class UserModal extends Component {
   }
   
   render() {
-    const { onClose, open } = this.props
-    const { name, password, checkPassword, language } = this.state
+    const { onClose, open, addUser } = this.props
+    const { name, password, checkPassword, language, errorMessage, displayStatus } = this.state
+    console.log("🚀 ~ file: userModal.jsx ~ line 104 ~ UserModal ~ render ~ this.state", this.state)
     
     if (!open) return null
     
-    console.log(this.state)
     return ReactDOM.createPortal(
       <div className="modal-background">
+        <div className="error-message" style={{ display: displayStatus ? 'none' : 'block' }}>
+          <span>{ errorMessage }</span>
+          <button type="button" onClick={() => this.setState({ displayStatus: true })}>X</button>
+        </div>
         <div className="userModal">
           <div className="close-btn">
             <button onClick={onClose}>X</button>
           </div>
-          <form onSubmit={ this.handleSubmit } method="post" className="userInfo-form">
+          <form onSubmit={ this.handleSubmit } method={ addUser? "post": "put" } className="userInfo-form">
             <div>
               <label htmlFor="input-name">Name</label>
               <input type="text" id="input-name" value={ name } onChange={e => this.setState({ name: e.target.value })}/>
@@ -92,38 +154,3 @@ export default class UserModal extends Component {
     )
   }
 }
-
-
-// export default function UserModal({ open, onClose, btn, userInfo }) {
-//   if (!open) return null
-
-//   const inputData = {}
-  
-//   const handleSubmit = e => {
-//   console.log("🚀 ~ file: userModal.jsx ~ line 10 ~ UserModal ~ e ", e )
-//     console.log("🚀 ~ file: userModal.jsx ~ line 8 ~ UserModal ~ inputData", inputData)
-//     e.preventDefault()
-//     if (!inputData.name || inputData.role) return console.info('name or role can not be empty')
-//   }
-
-//   return ReactDOM.createPortal(
-//     <div className="modal-background">
-//       <div className="userModal">
-//         <div>
-//           <button onClick={ onClose }>X</button>
-//         </div>
-//         <form onSubmit={ handleSubmit } method="post">
-//           <input type="text" onChange={e => inputData['name'] = e.target.value}/>
-//           <input type="text" onChange={e => inputData['role'] = e.target.value} value={userInfo? userInfo.role: ''}/>
-//           <input type="text" onChange={e => inputData['isActive'] = e.target.value} value={userInfo ? userInfo.isActive : ''}/>
-//           <input type="text" onChange={e => inputData['password'] = e.target.value} value=''/>
-//           <input type="text" onChange={e => inputData['checkPassword'] = e.target.value} value=''/>
-//           <input type="text" onChange={e => inputData['language'] = e.target.value} value={userInfo ? userInfo.language : ''}/>
-//           <button type={{display: btn? 'submit': 'button'}} onClick={ onClose } style={{ display: btn ? 'table-cell' : 'none' }}>Add</button>
-//           <button type={{ display: btn ? 'button' : 'submit' }} onClick={ onClose } style={{ display: btn ? 'none' : 'table-cell' }}>Edit</button>
-//         </form>
-//       </div>
-//     </div>,
-//     document.getElementById('portal')
-//   )
-// }
