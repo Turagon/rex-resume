@@ -19,14 +19,14 @@ export default class UserModal extends Component {
   handleSubmit = e => {
     e.preventDefault()
     const { id, name, role, isActive, password, checkPassword, language } = this.state
-    const { handleError } = this.props
+    const { handleError, addUser } = this.props
     if (!name || !role || !language) {
       return this.setState({errorMessage: "there's column missed, please check", displayStatus: false})
     }
     if (!password || (password !== checkPassword)) {
       return this.setState({errorMessage: "password inputs are not matched", displayStatus: false})
     }
-    if (id) {
+    if (!addUser) {
       const token = localStorage.getItem('token')
       axios({
         method: 'put',
@@ -84,7 +84,15 @@ export default class UserModal extends Component {
     if (userInfo.id && (userInfo.id !== state.id)) {
       return ({ ...userInfo })
     } else {
-      return ({ ...state })
+      return ({
+        id: '',
+        name: '',
+        role: '',
+        isActive: '',
+        password: '',
+        checkPassword: '',
+        language: ''
+       })
     }
   }
 
@@ -99,7 +107,7 @@ export default class UserModal extends Component {
   }
   
   render() {
-    const { onClose, open, addUser } = this.props
+    const { onClose, open } = this.props
     const { name, password, checkPassword, language, errorMessage, displayStatus } = this.state
     console.log("🚀 ~ file: userModal.jsx ~ line 104 ~ UserModal ~ render ~ this.state", this.state)
     
@@ -115,7 +123,8 @@ export default class UserModal extends Component {
           <div className="close-btn">
             <button onClick={onClose}>X</button>
           </div>
-          <form onSubmit={ this.handleSubmit } method={ addUser? "post": "put" } className="userInfo-form">
+          <form onSubmit={ this.handleSubmit } className="userInfo-form">
+          {/* <form onSubmit={ this.handleSubmit } method={ addUser? "post": "put" } className="userInfo-form"> */}
             <div>
               <label htmlFor="input-name">Name</label>
               <input type="text" id="input-name" value={ name } onChange={e => this.setState({ name: e.target.value })}/>
