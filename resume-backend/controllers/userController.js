@@ -34,8 +34,8 @@ const userController = {
       const user = await User.findByPk(userId)
       if (user) {
         userData.password = await bcrypt.hash(userData.password, 10)
-        await user.update({ ...userData })
-        return res.json({ status: 'success', message: 'user updated' })
+        const userUpdate = await user.update({ ...userData })
+        return res.json({ status: 'success', message: 'user updated', user: userUpdate })
       }
       return res.json({ status: 'error', message: 'user not found' })
     }
@@ -57,9 +57,10 @@ const userController = {
         return res.json({status: 'error', message: 'user already existed'})
       }
       userData.password = await bcrypt.hash(userData.password, 10)
+      userData.isActive = userData.isActive === 'true'? true: false
       const newUser = await User.create({ ...userData })
       if (newUser) {
-        return res.json({ status: 'success', message: 'user added' })
+        return res.json({ status: 'success', message: 'user added', user: newUser })
       }
     }
     catch { err => console.log(err) }
