@@ -1,32 +1,31 @@
 import axios from 'axios';
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
-
+import store from '../../redux/store'
 
 export default class UserModal extends Component {
   state = {
-    id: '',
-    name: '',
-    role: '',
-    isActive: '',
-    password: '',
-    checkPassword: '',
-    language: '',
-    errorMessage: '',
-    displayStatus: true
+    errorMessage: '', // store error msg
+    displayStatus: true, //switch for error msg block
+  }
+
+  componentDidMount() {
+    store.subscribe(() => {
+      this.setState({})
+    })
   }
 
   handleSubmit = e => {
     e.preventDefault()
-    const { id, name, role, isActive, password, checkPassword, language } = this.state
-    const { handleError, addUser } = this.props
+    const { id, name, role, isActive, password, checkPassword, language } = store.getState().userReducer
+    const { handleError, updateUsers } = this.props
     if (!name || !role || !language) {
       return this.setState({errorMessage: "there's column missed, please check", displayStatus: false})
     }
     if (!password || (password !== checkPassword)) {
       return this.setState({errorMessage: "password inputs are not matched", displayStatus: false})
     }
-    if (!addUser) {
+    if (id) {
       const token = localStorage.getItem('token')
       axios({
         method: 'put',
@@ -47,8 +46,9 @@ export default class UserModal extends Component {
           this.props.onClose()
           return handleError(error)
         }
+        const data = response.data.user
         this.props.onClose()
-        return window.location.reload(true)
+        return updateUsers('edit', data)
       })
       .catch(err => console.log(err))
     } else {
@@ -72,44 +72,18 @@ export default class UserModal extends Component {
             this.props.onClose()
             return handleError(error)
           }
+          const data = response.data.user
           this.props.onClose()
-          return window.location.reload(true)
+          return updateUsers('add', data)
         })
         .catch(err => console.log(err))
     }
   }
-
-  static getDerivedStateFromProps (props, state) {
-    const { userInfo } = props
-    if (userInfo.id && (userInfo.id !== state.id)) {
-      return ({ ...userInfo })
-    } else {
-      return ({
-        id: '',
-        name: '',
-        role: '',
-        isActive: '',
-        password: '',
-        checkPassword: '',
-        language: ''
-       })
-    }
-  }
-
-  handleSelect = () => {
-    const value = this.Select.value === 'true'
-    this.setState({ isActive: value })
-  }
-
-  handleRoleSelect = () => {
-    const { value } = this.roleSelect
-    this.setState({ role: value })
-  }
   
   render() {
     const { onClose, open } = this.props
-    const { name, password, checkPassword, language, errorMessage, displayStatus } = this.state
-    console.log("🚀 ~ file: userModal.jsx ~ line 104 ~ UserModal ~ render ~ this.state", this.state)
+    const { errorMessage, displayStatus } = this.state
+    const { name, password, checkPassword, language } = store.getState().userReducer
     
     if (!open) return null
     
@@ -124,36 +98,35 @@ export default class UserModal extends Component {
             <button onClick={onClose}>X</button>
           </div>
           <form onSubmit={ this.handleSubmit } className="userInfo-form">
-          {/* <form onSubmit={ this.handleSubmit } method={ addUser? "post": "put" } className="userInfo-form"> */}
             <div>
               <label htmlFor="input-name">Name</label>
-              <input type="text" id="input-name" value={ name } onChange={e => this.setState({ name: e.target.value })}/>
+              <input type="text" id="input-name" value={ name } onChange={e => store.dispatch({ type: 'editUsername', data: e.target.value })}/>
             </div>
             <div>
               <label htmlFor="input-role">Role</label>
-              <select ref={e => this.roleSelect = e} onBlur={this.handleRoleSelect} id="input-role">
+              <select onBlur={e => store.dispatch({ type: 'editRole', data: e.target.value })} id="input-role">
                 <option value="admin">admin</option>
                 <option value="user">user</option>
               </select>
             </div>
             <div>
               <label htmlFor="input-isActive">isActive</label>
-              <select ref={e => this.Select = e} onBlur={ this.handleSelect } id="input-isActive">
-                <option value={ true }>true</option>
-                <option value={ false }>false</option>
+              <select onBlur={e => store.dispatch({ type: 'editIsActive', data: e.target.value })} id="input-isActive">
+                <option value="true">true</option>
+                <option value="false">false</option>
               </select>
             </div>
             <div>
               <label htmlFor="input-password">Password</label>
-              <input type="text" id="input-password" value={password} onChange={e => this.setState({ password: e.target.value })}/>
+              <input type="text" id="input-password" value={password} onChange={e => store.dispatch({ type: 'editPassword', data: e.target.value })}/>
             </div>
             <div>
               <label htmlFor="input-checkPassword">Check Password</label>
-              <input type="text" id="input-checkPassword" value={checkPassword} onChange={e => this.setState({ checkPassword: e.target.value })}/>
+              <input type="text" id="input-checkPassword" value={checkPassword} onChange={e => store.dispatch({ type: 'editCheckPassword', data: e.target.value })}/>
             </div>
             <div>
               <label htmlFor="input-language">Language</label>
-              <input type="text" id="input-language" value={language} onChange={e => this.setState({ language: e.target.value })}/>
+              <input type="text" id="input-language" value={language} onChange={e => store.dispatch({ type: 'editUserLanguage', data: e.target.value })}/>
             </div>
             <button type='submit'>Submit</button>
           </form>
