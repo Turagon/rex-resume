@@ -11,7 +11,7 @@ const workController = {
   },
 
   editWork: async (req, res) => {
-    const workId = req.params.id
+    const workId = Number(req.params.id)
     const workData = req.body
     const { company, jobTitle, from, to, description, location } = workData
     try {
@@ -48,7 +48,7 @@ const workController = {
   },
 
   deleteWork: async (req, res) => {
-    const workId = req.params.id
+    const workId = Number(req.params.id)
     try {
       let work = await Work.findByPk(workId)
       if (work) {
@@ -58,7 +58,7 @@ const workController = {
         }
         return res.json({ status: 'error', message: 'server operation error' })
       }
-      return res.json({ status: 'error', message: 'Can not find in record' })
+      return res.json({ status: 'error', message: 'Can not find in records' })
     }
     catch { err => console.log(err) }
   }

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import store from '../../redux/store'
-import WorkModal from './workModal'
-import './workExp.css'
+import EducationModal from './eduModal'
+import './education.css'
 
 export default class WorkExp extends Component {
   state = {
-    works: [],
+    educations: [],
     user: {},
     open: false, //switch modal open
     errorMessage: '', //store error msg
@@ -21,15 +21,15 @@ export default class WorkExp extends Component {
       }
     }
 
-    axios.get('http://localhost:3001/work', config)
+    axios.get('http://localhost:3001/education', config)
       .then(response => {
-        const { works, user } = response.data
-        this.setState({ works, user })
+        const { educations, user } = response.data
+        this.setState({ educations, user })
       })
       .catch(err => console.log(err))
   }
 
-  deleteWorkItem = e => {
+  deleteEducationItem = e => {
     const id = Number(e.target.getAttribute("data-id"))
     const token = localStorage.getItem('token')
     const config = {
@@ -38,13 +38,13 @@ export default class WorkExp extends Component {
       }
     }
 
-    axios.delete(`http://localhost:3001/work/${id}`, config)
+    axios.delete(`http://localhost:3001/education/${id}`, config)
       .then(response => {
         const result = response.data.status
-        let { works } = this.state
+        let { educations } = this.state
         if (result === 'success') {
-          works = works.filter(item => item.id !== id)
-          return this.setState({ works })
+          educations = educations.filter(item => item.id !== id)
+          return this.setState({ educations })
         } else {
           return this.setState({ displayStatus: false, errorMessage: 'Oops! Our system got some difficulties, please try later.' })
         }
@@ -52,32 +52,32 @@ export default class WorkExp extends Component {
       .catch(err => console.log(err))
   }
 
-  initEdit = (item) => {
+  initEducationEdit = (item) => {
     this.setState({ open: true })
-    store.dispatch({ type: 'initEdit', data: { id: item.id, company: item.company, jobTitle: item.jobTitle, from: item.from, to: item.to, description: item.description, location: item.location, language: item.language } })
+    store.dispatch({ type: 'initEducationEdit', data: { id: item.id, name: item.name, major: item.major, degree: item.degree, from: item.from, to: item.to, location: item.location, language: item.language } })
   }
 
   addItem = () => {
     this.setState({ open: true })
-    store.dispatch({ type: 'initEdit', data: { company: '', jobTitle: '', from: '', to: '', description: '', location: '', language: '' } })
+    store.dispatch({ type: 'initEducationEdit', data: { name: '', mojor: '', degree: '', from: '', to: '', location: '', language: '' } })
   }
 
-  updateWorks = (type, data) => {
-    let { works } = this.state
+  updateEducations = (type, data) => {
+    let { educations } = this.state
     if (type === 'edit') {
-      for (let i in works) {
-        if (works[i].id === data.id) {
-          works[i] = data
-          return this.setState({ works }) 
+      for (let i in educations) {
+        if (educations[i].id === data.id) {
+          educations[i] = data
+          return this.setState({ educations })
         }
       }
     }
-    works.push(data)
-    return this.setState({ works })
+    educations.push(data)
+    return this.setState({ educations })
   }
 
   render() {
-    const { works, user, open, errorMessage, displayStatus } = this.state
+    const { educations, user, open, errorMessage, displayStatus } = this.state
 
     return (
       <div>
@@ -90,11 +90,11 @@ export default class WorkExp extends Component {
             <thead>
               <tr>
                 <th>id</th>
-                <th>Company</th>
-                <th>Job Title</th>
+                <th>School</th>
+                <th>Major</th>
+                <th>Degree</th>
                 <th>From</th>
                 <th>To</th>
-                <th>Description</th>
                 <th>Location</th>
                 <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>edit</th>
                 <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>delete</th>
@@ -102,30 +102,31 @@ export default class WorkExp extends Component {
             </thead>
             <tbody>
               {
-                works.map(item => {
+                educations.map(item => {
                   return (
                     <tr key={item.id}>
                       <td>{item.id}</td>
-                      <td>{item.company}</td>
-                      <td>{item.jobTitle}</td>
+                      <td>{item.name}</td>
+                      <td>{item.major}</td>
+                      <td>{item.degree}</td>
                       <td>{item.from}</td>
                       <td>{item.to}</td>
-                      <td>{item.description}</td>
                       <td>{item.location}</td>
 
-                      <td onClick={() => this.initEdit(item)} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}><i className="far fa-edit"></i></td>
+                      <td onClick={() => this.initEducationEdit(item)} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}><i className="far fa-edit"></i></td>
 
-                      <td onClick={this.deleteWorkItem} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }} data-id={item.id}><i className="fas fa-trash-alt" data-id={item.id}></i></td>
+                      <td onClick={this.deleteEducationItem} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }} data-id={item.id}><i className="fas fa-trash-alt" data-id={item.id}></i></td>
                     </tr>
                   )
                 })
               }
             </tbody>
           </table>
-          <button onClick={ this.addItem } style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }} className="add-btn">Add <i className="fas fa-plus"></i></button>
-          <WorkModal open={open} onClose={() => this.setState({ open: false })} handleError={this.handleError} updateWorks={this.updateWorks}/>
+          <button onClick={this.addItem} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }} className="add-btn">Add <i className="fas fa-plus"></i></button>
+          <EducationModal open={open} onClose={() => this.setState({ open: false })} handleError={this.handleError} updateEducations={this.updateEducations} />
         </div>
       </div>
     )
   }
 }
+
