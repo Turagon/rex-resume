@@ -1,0 +1,74 @@
+td img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+/* for modal */
+.personModal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 470px;
+  padding: 10px;
+  top: 52%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background-color: white;
+  border-radius: 10px;
+}
+
+.personModal .close-btn {
+  width: 10%;
+  align-self: end;
+}
+
+.personModal .close-btn button {
+  background-color: white;
+  border: none;
+  font-size: 20px;
+  color: grey;
+  font-weight: bold;
+}
+
+.personModal .userInfo-form div {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: grey;
+}
+
+.personModal .userInfo-form div input {
+  margin-top: 2px;
+  border: none;
+  border-bottom: 2px solid grey;
+}
+
+.img-input {
+  position: relative;
+}
+
+.img-input img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.img-input label {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  font-size: 40px;
+  color: lightgrey;
+  text-align: center;
+  line-height: 80px;
+}
+
+.img-input input {
+  display: none;
+}
+

@@ -96,8 +96,8 @@ export default class WorkExp extends Component {
                 <th>From</th>
                 <th>To</th>
                 <th>Location</th>
-                <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>edit</th>
-                <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>delete</th>
+                <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>Edit</th>
+                <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>Delete</th>
               </tr>
             </thead>
             <tbody>

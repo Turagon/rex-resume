@@ -5,6 +5,7 @@ import UserList from '../../components/userList'
 import WorkExp from '../../components/workExp'
 import Education from '../../components/education'
 import PersonInfo from '../../components/personInfo'
+import Skill from '../../components/skills'
 import './admin.css'
 
 export default class Admin extends Component {
@@ -33,7 +34,7 @@ export default class Admin extends Component {
             <Route path="/admin/user" component={UserList} />
             <Route path="/admin/workExp" component={WorkExp} />
             <Route path="/admin/education" component={Education} />
-            {/* <Route path="/admin/skill" component={Home} /> */}
+            <Route path="/admin/skill" component={Skill} />
             <Route path="/admin/personInfo" component={PersonInfo} />
             {/* <Route path="/admin/portfolio" component={Home} /> */}
             {/* <Route path="/admin/coverletter" component={Home} /> */}

@@ -54,12 +54,12 @@ export default class PersonInfo extends Component {
 
   initPersonEdit = (item) => {
     this.setState({ open: true })
-    store.dispatch({ type: 'initPersonEdit', data: { id: item.id, name: item.name, image: item.image, birthday: item.birthday, address: item.address, phone: item.phone, email: item.email } })
+    store.dispatch({ type: 'initPersonEdit', data: { id: item.id, name: item.name, image: item.image, birthday: item.birthday, address: item.address, phone: item.phone, email: item.email, language: item.language } })
   }
 
   addItem = () => {
     this.setState({ open: true })
-    store.dispatch({ type: 'initPersonEdit', data: { name: '', image: '', birthday: '', address: '', phone: '', email: '' } })
+    store.dispatch({ type: 'initPersonEdit', data: { name: '', image: '', birthday: '', address: '', phone: '', email: '', language: '' } })
   }
 
   updatePersonInfos = (type, data) => {
@@ -96,8 +96,9 @@ export default class PersonInfo extends Component {
                 <th>Address</th>
                 <th>Phone</th>
                 <th>Email</th>
-                <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>edit</th>
-                <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>delete</th>
+                <th>Language</th>
+                <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>Edit</th>
+                <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -112,6 +113,7 @@ export default class PersonInfo extends Component {
                       <td>{item.address}</td>
                       <td>{item.phone}</td>
                       <td>{item.email}</td>
+                      <td>{item.language}</td>
 
                       <td onClick={() => this.initPersonEdit(item)} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}><i className="far fa-edit"></i></td>
 

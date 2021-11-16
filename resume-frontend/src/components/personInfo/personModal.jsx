@@ -26,10 +26,10 @@ export default class PersonModal extends Component {
 
   handlePersonSubmit = e => {
     e.preventDefault()
-    const { id, name, birthday, address, phone, email } = store.getState().personReducer
+    const { id, name, birthday, address, phone, email, language } = store.getState().personReducer
     const { handleError, updatePersonInfos } = this.props
 
-    if (!name || !birthday || !address || !phone || !email) {
+    if (!name || !birthday || !address || !phone || !email || !language) {
       return this.setState({ errorMessage: "there's column missed, please check", displayStatus: false })
     }
     const token = localStorage.getItem('token')
@@ -78,7 +78,7 @@ export default class PersonModal extends Component {
   render() {
     const { onClose, open } = this.props
     const { errorMessage, displayStatus } = this.state
-    const { name, image, birthday, address, phone, email  } = store.getState().personReducer
+    const { name, image, birthday, address, phone, email, language  } = store.getState().personReducer
 
     if (!open) return null
 
@@ -88,13 +88,13 @@ export default class PersonModal extends Component {
           <span>{errorMessage}</span>
           <button type="button" onClick={() => this.setState({ displayStatus: true })}>X</button>
         </div>
-        <div className="workModal">
+        <div className="personModal">
           <div className="close-btn">
             <button onClick={onClose}>X</button>
           </div>
           <form onSubmit={this.handlePersonSubmit} encType="multipart/form-data" className="userInfo-form">
-            <div>
-              <label htmlFor="input-image">Image</label>
+            <div className="img-input">
+              <label htmlFor="input-image"><i className="fas fa-camera"></i></label>
               <img src={image} alt="" />
               <input type="file" name="image" id="input-image" accept="image/gif,image/jpeg,image/jpg,image/png" onChange={ this.handleAvatar } />
             </div>
@@ -117,6 +117,10 @@ export default class PersonModal extends Component {
             <div>
               <label htmlFor="input-email">Email</label>
               <input type="text" name="email" id="input-email" value={email} onChange={e => store.dispatch({ type: 'editEmail', data: e.target.value })} />
+            </div>
+            <div>
+              <label htmlFor="input-language">Language</label>
+              <input type="text" name="language" id="input-language" value={language} onChange={e => store.dispatch({ type: 'editLanguage', data: e.target.value })} />
             </div>
             <button type='submit'>Submit</button>
           </form>

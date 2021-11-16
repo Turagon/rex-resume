@@ -97,8 +97,8 @@ export default class UserList extends Component {
                 <th>Name</th>
                 <th>Role</th>
                 <th>isActive</th>
-                <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>edit</th>
-                <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>delete</th>
+                <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>Edit</th>
+                <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>Delete</th>
               </tr>
             </thead>
             <tbody>

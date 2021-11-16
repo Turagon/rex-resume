@@ -31,6 +31,10 @@ export default function personReducer(preState = initPersonState, action) {
       preState.email = data
       return preState
 
+    case 'editLanguage':
+      preState.language = data
+      return preState
+
     default:
       return initPersonState
   }
