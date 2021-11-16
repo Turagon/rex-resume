@@ -6,6 +6,7 @@ import WorkExp from '../../components/workExp'
 import Education from '../../components/education'
 import PersonInfo from '../../components/personInfo'
 import Skill from '../../components/skills'
+import CoverLetter from '../../components/coverLetter'
 import './admin.css'
 
 export default class Admin extends Component {
@@ -37,7 +38,7 @@ export default class Admin extends Component {
             <Route path="/admin/skill" component={Skill} />
             <Route path="/admin/personInfo" component={PersonInfo} />
             {/* <Route path="/admin/portfolio" component={Home} /> */}
-            {/* <Route path="/admin/coverletter" component={Home} /> */}
+            <Route path="/admin/coverletter" component={CoverLetter} />
             <Redirect to="/admin/user" />
           </Switch>
         </div>

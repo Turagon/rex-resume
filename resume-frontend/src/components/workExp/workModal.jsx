@@ -114,7 +114,7 @@ export default class WorkModal extends Component {
               <input type="date" id="input-to" value={to} onChange={e => store.dispatch({ type: 'editTo', data: e.target.value })}/>
             </div>
             <div>
-              <label htmlFor="description">Description</label>
+              <label htmlFor="input-description">Description</label>
               <textarea type="text" id="input-description" value={description} onChange={e => store.dispatch({ type: 'editDescription', data: e.target.value })}/>
             </div>
             <div>
