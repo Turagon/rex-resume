@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Redirect, Switch } from 'react-router-dom'
+import store from '../../redux/store'
 import MyNavLink from '../../components/NavLinks'
 import UserList from '../../components/userList'
 import WorkExp from '../../components/workExp'
@@ -7,18 +8,26 @@ import Education from '../../components/education'
 import PersonInfo from '../../components/personInfo'
 import Skill from '../../components/skills'
 import CoverLetter from '../../components/coverLetter'
+import Portfolio from '../../components/portfolios'
 import './admin.css'
 
 export default class Admin extends Component {
 
+  handleLogout = () => {
+    store.dispatch({ type: 'editToken', data: '' })
+    return this.props.history.push('/')
+  }
+
   render() {
+    const { username } = store.getState().generalReducer
+
     return (
       <div className="admin">
         <header className="admin-header">
           <div className="admin-header-box">
-            <span>Username</span>
+            <span>{username}</span>
             <MyNavLink to='/user'>User Page</MyNavLink>
-            <button><i className="fas fa-sign-out-alt"></i></button>
+            <button onClick={this.handleLogout}><i className="fas fa-sign-out-alt"></i></button>
           </div>
         </header>
         <div className="admin-links">
@@ -37,7 +46,7 @@ export default class Admin extends Component {
             <Route path="/admin/education" component={Education} />
             <Route path="/admin/skill" component={Skill} />
             <Route path="/admin/personInfo" component={PersonInfo} />
-            {/* <Route path="/admin/portfolio" component={Home} /> */}
+            <Route path="/admin/portfolio" component={Portfolio} />
             <Route path="/admin/coverletter" component={CoverLetter} />
             <Redirect to="/admin/user" />
           </Switch>

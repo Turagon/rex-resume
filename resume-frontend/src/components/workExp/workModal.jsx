@@ -23,7 +23,7 @@ export default class WorkModal extends Component {
     if (!company || !jobTitle || !from || !to || !description || !location || !language) {
       return this.setState({ errorMessage: "there's column missed, please check", displayStatus: false })
     }
-    const token = localStorage.getItem('token')
+    const { token } = store.getState().generalReducer
     if (id) {
       axios({
         method: 'put',

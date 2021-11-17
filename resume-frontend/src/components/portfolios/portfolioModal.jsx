@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import axios from 'axios'
 import store from '../../redux/store'
 
-export default class PersonModal extends Component {
+export default class PortfolioModal extends Component {
   state = {
     errorMessage: '', // store error msg
     displayStatus: true, //switch for error msg block
@@ -15,21 +15,21 @@ export default class PersonModal extends Component {
     })
   }
 
-  handleAvatar (e) {
+  handleImage(e) {
     const { files } = e.target
     if (files.length === 0) {
-      return store.dispatch({ type: 'editImage', data: '' })
+      return store.dispatch({ type: 'editPortfolioImage', data: '' })
     }
     const imageURL = window.URL.createObjectURL(files[0])
-    store.dispatch({ type: 'editImage', data: imageURL })
+    store.dispatch({ type: 'editPortfolioImage', data: imageURL })
   }
 
-  handlePersonSubmit = e => {
+  handlePortfolioSubmit = e => {
     e.preventDefault()
-    const { id, name, birthday, address, phone, email, language } = store.getState().personReducer
-    const { handleError, updatePersonInfos } = this.props
+    const { id, name, image, github, heroku, description, language } = store.getState().portfolioReducer
+    const { handleError, updatePortfolios } = this.props
 
-    if (!name || !birthday || !address || !phone || !email || !language) {
+    if (!name || !image || !github || !heroku || !description || !language) {
       return this.setState({ errorMessage: "there's column missed, please check", displayStatus: false })
     }
     const { token } = store.getState().generalReducer
@@ -39,7 +39,7 @@ export default class PersonModal extends Component {
     if (id) {
       axios({
         method: 'put',
-        url: `http://localhost:3001/person/${id}`,
+        url: `http://localhost:3001/portfolio/${id}`,
         headers: { Authorization: `Bearer ${token}` },
         data: formData
       })
@@ -49,15 +49,15 @@ export default class PersonModal extends Component {
             this.props.onClose()
             return handleError(error)
           }
-          const data = response.data.person
+          const data = response.data.portfolio
           this.props.onClose()
-          return updatePersonInfos('edit', data)
+          return updatePortfolios('edit', data)
         })
         .catch(err => console.log(err))
     } else {
       axios({
         method: 'post',
-        url: `http://localhost:3001/person`,
+        url: `http://localhost:3001/portfolio`,
         headers: { Authorization: `Bearer ${token}` },
         data: formData
       })
@@ -67,9 +67,9 @@ export default class PersonModal extends Component {
             this.props.onClose()
             return handleError(error)
           }
-          const data = response.data.person
+          const data = response.data.portfolio
           this.props.onClose()
-          return updatePersonInfos('add', data)
+          return updatePortfolios('add', data)
         })
         .catch(err => console.log(err))
     }
@@ -78,7 +78,7 @@ export default class PersonModal extends Component {
   render() {
     const { onClose, open } = this.props
     const { errorMessage, displayStatus } = this.state
-    const { name, image, birthday, address, phone, email, language  } = store.getState().personReducer
+    const { name, image, github, heroku, description, language } = store.getState().portfolioReducer
 
     if (!open) return null
 
@@ -88,39 +88,35 @@ export default class PersonModal extends Component {
           <span>{errorMessage}</span>
           <button type="button" onClick={() => this.setState({ displayStatus: true })}>X</button>
         </div>
-        <div className="personModal">
+        <div className="portfolioModal">
           <div className="close-btn">
             <button onClick={onClose}>X</button>
           </div>
-          <form onSubmit={this.handlePersonSubmit} encType="multipart/form-data" className="userInfo-form">
+          <form onSubmit={this.handlePortfolioSubmit} encType="multipart/form-data" className="userInfo-form">
             <div className="img-input">
               <label htmlFor="input-image"><i className="fas fa-camera"></i></label>
               <img src={image} alt="" />
-              <input type="file" name="image" id="input-image" accept="image/gif,image/jpeg,image/jpg,image/png" onChange={ this.handleAvatar } />
+              <input type="file" name="image" id="input-image" accept="image/gif,image/jpeg,image/jpg,image/png" onChange={this.handleImage} />
             </div>
             <div>
               <label htmlFor="input-name">Name</label>
-              <input type="text" name="name" id="input-name" value={name} onChange={e => store.dispatch({ type: 'editPersonName', data: e.target.value })} />
+              <input type="text" name="name" id="input-name" value={name} onChange={e => store.dispatch({ type: 'editPortfolioName', data: e.target.value })} />
             </div>
             <div>
-              <label htmlFor="input-birthday">Date of Birth</label>
-              <input type="date" name="birthday" id="input-birthday" value={birthday} onChange={e => store.dispatch({ type: 'editBirthday', data: e.target.value })} />
+              <label htmlFor="input-github">Github</label>
+              <input type="text" name="github" id="input-github" value={github} onChange={e => store.dispatch({ type: 'editGithub', data: e.target.value })} />
             </div>
             <div>
-              <label htmlFor="input-address">Address</label>
-              <input type="text" name="address" id="input-address" value={address} onChange={e => store.dispatch({ type: 'editAddress', data: e.target.value })} />
+              <label htmlFor="input-heroku">Heroku</label>
+              <input type="text" name="heroku" id="input-heroku" value={heroku} onChange={e => store.dispatch({ type: 'editHeroku', data: e.target.value })} />
             </div>
             <div>
-              <label htmlFor="input-phone">Phone No.</label>
-              <input type="text" name="phone" id="input-phone" value={phone} onChange={e => store.dispatch({ type: 'editPhone', data: e.target.value })} />
-            </div>
-            <div>
-              <label htmlFor="input-email">Email</label>
-              <input type="text" name="email" id="input-email" value={email} onChange={e => store.dispatch({ type: 'editEmail', data: e.target.value })} />
+              <label htmlFor="input-description">Description</label>
+              <textarea type="text" name="description" id="input-description" value={description} onChange={e => store.dispatch({ type: 'editPortfolioDescription', data: e.target.value })} />
             </div>
             <div>
               <label htmlFor="input-language">Language</label>
-              <input type="text" name="language" id="input-language" value={language} onChange={e => store.dispatch({ type: 'editLanguage', data: e.target.value })} />
+              <input type="text" name="language" id="input-language" value={language} onChange={e => store.dispatch({ type: 'editPortfolioLanguage', data: e.target.value })} />
             </div>
             <button type='submit'>Submit</button>
           </form>

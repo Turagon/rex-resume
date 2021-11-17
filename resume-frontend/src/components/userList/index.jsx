@@ -15,7 +15,11 @@ export default class UserList extends Component {
    }
   
   componentDidMount () {
-    const token = localStorage.getItem('token')
+    const { token } = store.getState().generalReducer
+    if (!token) {
+      return this.props.history.push('/')
+    }
+
     const config = {
       headers: {
         Authorization: `Bearer ${ token }` 
@@ -25,14 +29,14 @@ export default class UserList extends Component {
     axios.get('http://localhost:3001/user', config)
     .then(response => {
       const { users, user} = response.data
-      this.setState({ users, user, token })
+      this.setState({ users, user })
     })
     .catch(err => console.log(err))
   }
 
   deleteItem = e => {
     const id = Number(e.target.getAttribute("data-id"))
-    const token = localStorage.getItem('token')
+    const { token } = store.getState().generalReducer
     const config = {
       headers: {
         Authorization: `Bearer ${token}`

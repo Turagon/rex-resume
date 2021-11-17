@@ -5,6 +5,8 @@ import educationReducer from './education_reducer'
 import personReducer from './personInfo_reducer'
 import skillReducer from './skill_reducer'
 import letterReducer from './coverLetter_reducer'
+import portfolioReducer from './portfolio_reducer'
+import generalReducer from './general_reducer'
 
 const rootReducer = combineReducers({
   workReducer,
@@ -12,7 +14,9 @@ const rootReducer = combineReducers({
   educationReducer,
   personReducer,
   skillReducer,
-  letterReducer
+  letterReducer,
+  portfolioReducer,
+  generalReducer
 }) 
 
 export default createStore(rootReducer)

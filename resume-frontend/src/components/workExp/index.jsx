@@ -14,7 +14,11 @@ export default class WorkExp extends Component {
   }
 
   componentDidMount() {
-    const token = localStorage.getItem('token')
+    const { token } = store.getState().generalReducer
+    if (!token) {
+      return this.props.history.push('/')
+    }
+    
     const config = {
       headers: {
         Authorization: `Bearer ${token}`
@@ -31,7 +35,7 @@ export default class WorkExp extends Component {
 
   deleteWorkItem = e => {
     const id = Number(e.target.getAttribute("data-id"))
-    const token = localStorage.getItem('token')
+    const { token } = store.getState().generalReducer
     const config = {
       headers: {
         Authorization: `Bearer ${token}`

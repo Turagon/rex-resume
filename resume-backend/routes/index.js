@@ -5,6 +5,7 @@ const education = require('./education')
 const person = require('./person')
 const skill = require('./skill')
 const letter = require('./letter')
+const portfolio = require('./portfolio')
 const { ensureAuthenticated } = require('../config/helps')
 
 module.exports = (app) => {
@@ -14,5 +15,6 @@ module.exports = (app) => {
   app.use('/person', ensureAuthenticated, person)
   app.use('/skill', ensureAuthenticated, skill)
   app.use('/letter', ensureAuthenticated, letter)
+  app.use('/portfolio', ensureAuthenticated, portfolio)
   app.use('/', login)
 }

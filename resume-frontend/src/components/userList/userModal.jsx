@@ -1,6 +1,6 @@
-import axios from 'axios';
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 import store from '../../redux/store'
 
 export default class UserModal extends Component {
@@ -26,7 +26,7 @@ export default class UserModal extends Component {
       return this.setState({errorMessage: "password inputs are not matched", displayStatus: false})
     }
     if (id) {
-      const token = localStorage.getItem('token')
+      const { token } = store.getState().generalReducer
       axios({
         method: 'put',
         url: `http://localhost:3001/user/${id}`,

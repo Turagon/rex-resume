@@ -23,7 +23,7 @@ export default class EducationModal extends Component {
     if (!name || !from || !to || !degree || !location || !language) {
       return this.setState({ errorMessage: "there's column missed, please check", displayStatus: false })
     }
-    const token = localStorage.getItem('token')
+    const { token } = store.getState().generalReducer
     if (id) {
       axios({
         method: 'put',

@@ -23,7 +23,7 @@ export default class SkillModal extends Component {
     if (!category || !name) {
       return this.setState({ errorMessage: "there's column missed, please check", displayStatus: false })
     }
-    const token = localStorage.getItem('token')
+    const { token } = store.getState().generalReducer
     if (id) {
       axios({
         method: 'put',

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import './login.css'
+import store from '../../redux/store'
 
 export default class Login extends Component {
   state = {
@@ -30,11 +31,13 @@ export default class Login extends Component {
       }
 
       const token = response.data.token
-      localStorage.setItem('token', token)
+      const { name, type } = response.data.user
+      store.dispatch({type: 'editGeneralUsername', data: name})
+      store.dispatch({type: 'editToken', data: token})
       
-      if (response.data.user.type === 'user') {
+      if (type === 'user') {
         return this.props.history.push('/user') 
-      } else if (response.data.user.type === 'admin') {
+      } else if (type === 'admin') {
         return this.props.history.push('/admin/user') 
       }
     })
