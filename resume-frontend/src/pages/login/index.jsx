@@ -38,7 +38,7 @@ export default class Login extends Component {
       if (type === 'user') {
         return this.props.history.push('/user') 
       } else if (type === 'admin') {
-        return this.props.history.push('/admin/user') 
+        return this.props.history.push('/admin') 
       }
     })
     .catch(err => console.log(err))

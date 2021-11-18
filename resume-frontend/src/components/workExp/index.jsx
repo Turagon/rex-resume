@@ -7,8 +7,6 @@ import './workExp.css'
 export default class WorkExp extends Component {
   state = {
     works: [],
-    user: {},
-    open: false, //switch modal open
     errorMessage: '', //store error msg
     displayStatus: true //switch warning display which is from server
   }
@@ -28,7 +26,8 @@ export default class WorkExp extends Component {
     axios.get('http://localhost:3001/work', config)
       .then(response => {
         const { works, user } = response.data
-        this.setState({ works, user })
+        store.dispatch({ type: 'editUser', data: user })
+        this.setState({ works })
       })
       .catch(err => console.log(err))
   }
@@ -57,12 +56,12 @@ export default class WorkExp extends Component {
   }
 
   initEdit = (item) => {
-    this.setState({ open: true })
+    store.dispatch({ type: 'editOpen', data: true })
     store.dispatch({ type: 'initEdit', data: { id: item.id, company: item.company, jobTitle: item.jobTitle, from: item.from, to: item.to, description: item.description, location: item.location, language: item.language } })
   }
 
   addItem = () => {
-    this.setState({ open: true })
+    store.dispatch({ type: 'editOpen', data: true })
     store.dispatch({ type: 'initEdit', data: { company: '', jobTitle: '', from: '', to: '', description: '', location: '', language: '' } })
   }
 
@@ -81,7 +80,8 @@ export default class WorkExp extends Component {
   }
 
   render() {
-    const { works, user, open, errorMessage, displayStatus } = this.state
+    const { works, errorMessage, displayStatus } = this.state
+    const { user, open } = store.getState().generalReducer
 
     return (
       <div>
@@ -127,7 +127,7 @@ export default class WorkExp extends Component {
             </tbody>
           </table>
           <button onClick={ this.addItem } style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }} className="add-btn">Add <i className="fas fa-plus"></i></button>
-          <WorkModal open={open} onClose={() => this.setState({ open: false })} handleError={this.handleError} updateWorks={this.updateWorks}/>
+          <WorkModal open={open} onClose={() => store.dispatch({ type: 'editOpen', data: false })} handleError={this.handleError} updateWorks={this.updateWorks}/>
         </div>
       </div>
     )

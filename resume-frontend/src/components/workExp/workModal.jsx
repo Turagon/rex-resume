@@ -10,11 +10,6 @@ export default class WorkModal extends Component {
     displayStatus: true, //switch for error msg block
   }
 
-  componentDidMount () {
-    store.subscribe(() => {
-      this.setState({})
-    })
-  }
 
   handleWorkSubmit = e => {
     e.preventDefault()

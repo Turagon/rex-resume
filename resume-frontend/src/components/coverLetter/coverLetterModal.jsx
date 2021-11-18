@@ -10,12 +10,7 @@ export default class CoverLetterModal extends Component {
     displayStatus: true, //switch for error msg block
   }
 
-  componentDidMount() {
-    store.subscribe(() => {
-      this.setState({})
-    })
-  }
-
+  
   handleLetterSubmit = e => {
     e.preventDefault()
     const { id, username, content, to, attention, date } = store.getState().letterReducer

@@ -9,11 +9,6 @@ export default class UserModal extends Component {
     displayStatus: true, //switch for error msg block
   }
 
-  componentDidMount() {
-    store.subscribe(() => {
-      this.setState({})
-    })
-  }
 
   handleSubmit = e => {
     e.preventDefault()

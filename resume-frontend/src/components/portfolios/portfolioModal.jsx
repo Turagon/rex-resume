@@ -9,11 +9,6 @@ export default class PortfolioModal extends Component {
     displayStatus: true, //switch for error msg block
   }
 
-  componentDidMount() {
-    store.subscribe(() => {
-      this.setState({})
-    })
-  }
 
   handleImage(e) {
     const { files } = e.target

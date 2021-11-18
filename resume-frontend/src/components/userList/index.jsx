@@ -8,10 +8,6 @@ import './userList.css'
 export default class UserList extends Component {
   state = { 
     users: [], 
-    user: {}, 
-    open: false, //switch modal open
-    errorMessage: '', //store error msg
-    displayStatus: true //switch warning display which is from server
    }
   
   componentDidMount () {
@@ -29,7 +25,8 @@ export default class UserList extends Component {
     axios.get('http://localhost:3001/user', config)
     .then(response => {
       const { users, user} = response.data
-      this.setState({ users, user })
+      store.dispatch({ type: 'editUser', data: user })
+      this.setState({ users })
     })
     .catch(err => console.log(err))
   }
@@ -51,23 +48,23 @@ export default class UserList extends Component {
         users = users.filter(item => item.id !== id)
         return this.setState({ users })
       } else {
-        return this.setState({ displayStatus: false, errorMessage: 'Oops! Our system got some difficulties, please try later.' })
+        return store.dispatch({ type: 'editErrorMessage', data: 'Oops! Our system got some difficulties, please try later.' }, { type: 'editDisplayStatus', data: false })
       }
     })
     .catch(err => console.log(err))
   }
 
   handleError = (error) => {
-    return this.setState({ errorMessage: error, displayStatus: false })
+    return store.dispatch({ type: 'editErrorMessage', data: error }, { type: 'editDisplayStatus', data: false })
   }
 
   initUserEdit = (item) => {
-    this.setState({ open: true })
+    store.dispatch({ type: 'editOpen', data: true })
     store.dispatch({ type: 'initUserEdit', data: { id: item.id, name: item.name, role: item.role, isActive: item.isActive, language: item.language } })
   }
 
   addUserItem = () => {
-    this.setState({ open: true })
+    store.dispatch({ type: 'editOpen', data: true })
     store.dispatch({ type: 'initUserEdit', data: { id: '', name: '', role: '', isActive: '', password: '', checkPassword: '', language: '' } })
   }
 
@@ -86,7 +83,8 @@ export default class UserList extends Component {
   }
 
   render() {
-    const { users, user, open, errorMessage, displayStatus } = this.state
+    const { users } = this.state
+    const { user, open, errorMessage, displayStatus } = store.getState().generalReducer
     return (
       <div>
         <div className="error-message" style={{ display: displayStatus ? 'none' : 'block' }}>
@@ -125,7 +123,7 @@ export default class UserList extends Component {
             </tbody>
           </table>
           <button onClick={this.addUserItem} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }} className="add-btn">Add <i className="fas fa-plus"></i></button>
-          <UserModal open={open} onClose={() => this.setState({ open: false })} handleError={this.handleError} updateUsers={this.updateUsers}/>
+          <UserModal open={open} onClose={() => store.dispatch({ type: 'editOpen', data: false })} handleError={this.handleError} updateUsers={this.updateUsers}/>
         </div>
       </div>
     )

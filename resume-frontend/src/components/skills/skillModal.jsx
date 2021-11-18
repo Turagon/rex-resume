@@ -10,11 +10,6 @@ export default class SkillModal extends Component {
     displayStatus: true, //switch for error msg block
   }
 
-  componentDidMount() {
-    store.subscribe(() => {
-      this.setState({})
-    })
-  }
 
   handleSkillSubmit = e => {
     e.preventDefault()

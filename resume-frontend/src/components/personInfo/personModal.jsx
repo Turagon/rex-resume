@@ -9,11 +9,6 @@ export default class PersonModal extends Component {
     displayStatus: true, //switch for error msg block
   }
 
-  componentDidMount() {
-    store.subscribe(() => {
-      this.setState({})
-    })
-  }
 
   handleAvatar (e) {
     const { files } = e.target
