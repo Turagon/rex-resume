@@ -1,18 +1,50 @@
-.user-table{
+.coverLetter-table{
   padding: 10px 10px;
 }
 
-.user-table table {
-  width: 60%;
+.coverLetter-table table {
+  width: 95%;
   text-align: center;
   font-size: 14px;
 }
 
-.user-table table i {
+.coverLetter-des-title {
+  width: 35%;
+}
+
+.coverLetter-table table .coverLetter-content {
+  height: 80px;
+  overflow:hidden;
+  overflow-y: scroll;
+  text-overflow: ellipsis;
+  text-align: left;
+  padding: 2px 4px 2px 4px;
+  display: -webkit-box;
+  white-space: normal;
+  -webkit-box-orient: vertical;
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.coverLetter-table table .coverLetter-content h5 {
+  margin: 3px 0 3px 0;
+}
+
+.coverLetter-table table .coverLetter-content ul {
+  margin: 3px 0 3px 0;
+  padding-left: 18px;
+}
+
+::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+.coverLetter-table table i {
   color: grey;
 }
 
-.user-table .add-btn {
+.coverLetter-table .add-btn {
   margin-left: 60%;
   transform: translateX(-110%);
   margin-top: 15px;

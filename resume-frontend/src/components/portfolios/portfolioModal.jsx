@@ -27,7 +27,7 @@ export default class PortfolioModal extends Component {
     if (!name || !image || !github || !heroku || !description || !language) {
       return this.setState({ errorMessage: "there's column missed, please check", displayStatus: false })
     }
-    const { token } = store.getState().generalReducer
+    const token = localStorage.getItem('token')
     const form = e.target
     const formData = new FormData(form)
 

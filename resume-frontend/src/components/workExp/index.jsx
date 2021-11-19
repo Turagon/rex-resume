@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactMarkdown from 'react-markdown'
 import axios from 'axios'
 import store from '../../redux/store'
 import WorkModal from './workModal'
@@ -12,7 +13,7 @@ export default class WorkExp extends Component {
   }
 
   componentDidMount() {
-    const { token } = store.getState().generalReducer
+    const token = localStorage.getItem('token')
     if (!token) {
       return this.props.history.push('/')
     }
@@ -34,7 +35,7 @@ export default class WorkExp extends Component {
 
   deleteWorkItem = e => {
     const id = Number(e.target.getAttribute("data-id"))
-    const { token } = store.getState().generalReducer
+    const token = localStorage.getItem('token')
     const config = {
       headers: {
         Authorization: `Bearer ${token}`
@@ -89,7 +90,7 @@ export default class WorkExp extends Component {
           <span>{errorMessage}</span>
           <button type="button" onClick={() => this.setState({ displayStatus: true })}>X</button>
         </div>
-        <div className="user-table">
+        <div className="work-table">
           <table>
             <thead>
               <tr>
@@ -98,7 +99,7 @@ export default class WorkExp extends Component {
                 <th>Job Title</th>
                 <th>From</th>
                 <th>To</th>
-                <th>Description</th>
+                <th className="work-des-title">Description</th>
                 <th>Location</th>
                 <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>Edit</th>
                 <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>Delete</th>
@@ -114,7 +115,7 @@ export default class WorkExp extends Component {
                       <td>{item.jobTitle}</td>
                       <td>{item.from}</td>
                       <td>{item.to}</td>
-                      <td>{item.description}</td>
+                      <td className="work-description"><ReactMarkdown children={item.description}/></td>
                       <td>{item.location}</td>
 
                       <td onClick={() => this.initEdit(item)} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}><i className="far fa-edit"></i></td>

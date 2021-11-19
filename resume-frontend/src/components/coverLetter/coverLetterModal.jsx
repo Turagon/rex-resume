@@ -18,7 +18,7 @@ export default class CoverLetterModal extends Component {
     if (!username || !content || !to || !attention || !date) {
       return this.setState({ errorMessage: "there's column missed, please check", displayStatus: false })
     }
-    const { token } = store.getState().generalReducer
+    const token = localStorage.getItem('token')
     if (id) {
       axios({
         method: 'put',

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactMarkdown from 'react-markdown'
 import axios from 'axios'
 import store from '../../redux/store'
 import CoverLetterModal from './coverLetterModal'
@@ -14,7 +15,7 @@ export default class CoverLetter extends Component {
   }
 
   componentDidMount() {
-    const { token } = store.getState().generalReducer
+    const token = localStorage.getItem('token')
     if (!token) {
       return this.props.history.push('/')
     }
@@ -35,7 +36,7 @@ export default class CoverLetter extends Component {
 
   deleteLetterItem = e => {
     const id = Number(e.target.getAttribute("data-id"))
-    const { token } = store.getState().generalReducer
+    const token = localStorage.getItem('token')
     const config = {
       headers: {
         Authorization: `Bearer ${token}`
@@ -89,13 +90,13 @@ export default class CoverLetter extends Component {
           <span>{errorMessage}</span>
           <button type="button" onClick={() => this.setState({ displayStatus: true })}>X</button>
         </div>
-        <div className="user-table">
+        <div className="coverLetter-table">
           <table>
             <thead>
               <tr>
                 <th>id</th>
                 <th>User Name</th>
-                <th>Content</th>
+                <th className="coverLetter-des-title">Content</th>
                 <th>To</th>
                 <th>Attention</th>
                 <th>Date</th>
@@ -110,7 +111,7 @@ export default class CoverLetter extends Component {
                     <tr key={item.id}>
                       <td>{item.id}</td>
                       <td>{item.username}</td>
-                      <td>{item.content}</td>
+                      <td className="coverLetter-content"><ReactMarkdown children={item.content} /></td>
                       <td>{item.to}</td>
                       <td>{item.attention}</td>
                       <td>{item.date}</td>

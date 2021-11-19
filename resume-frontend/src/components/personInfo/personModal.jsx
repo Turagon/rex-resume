@@ -27,7 +27,7 @@ export default class PersonModal extends Component {
     if (!name || !birthday || !address || !phone || !email || !language) {
       return this.setState({ errorMessage: "there's column missed, please check", displayStatus: false })
     }
-    const { token } = store.getState().generalReducer
+    const token = localStorage.getItem('token')
     const form = e.target
     const formData = new FormData(form)
 

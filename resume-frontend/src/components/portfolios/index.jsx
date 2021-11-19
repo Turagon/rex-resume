@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactMarkdown from 'react-markdown'
 import axios from 'axios'
 import store from '../../redux/store'
 import PortfolioModal from './portfolioModal'
@@ -14,7 +15,7 @@ export default class Portfolio extends Component {
   }
 
   componentDidMount() {
-    const { token } = store.getState().generalReducer
+    const token = localStorage.getItem('token')
     if (!token) {
       return this.props.history.push('/')
     }
@@ -35,7 +36,7 @@ export default class Portfolio extends Component {
 
   deletePortfolioItem = e => {
     const id = Number(e.target.getAttribute("data-id"))
-    const { token } = store.getState().generalReducer
+    const token = localStorage.getItem('token')
     const config = {
       headers: {
         Authorization: `Bearer ${token}`
@@ -89,7 +90,7 @@ export default class Portfolio extends Component {
           <span>{errorMessage}</span>
           <button type="button" onClick={() => this.setState({ displayStatus: true })}>X</button>
         </div>
-        <div className="user-table">
+        <div className="portfolio-table">
           <table>
             <thead>
               <tr>
@@ -98,7 +99,7 @@ export default class Portfolio extends Component {
                 <th>Name</th>
                 <th>Github</th>
                 <th>Heroku</th>
-                <th>Description</th>
+                <th className="portfolio-des-title">Description</th>
                 <th>Language</th>
                 <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>Edit</th>
                 <th style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}>Delete</th>
@@ -114,7 +115,7 @@ export default class Portfolio extends Component {
                       <td>{item.name}</td>
                       <td>{item.github}</td>
                       <td>{item.heroku}</td>
-                      <td>{item.description}</td>
+                      <td className="portfolio-description"><ReactMarkdown children={item.description} /></td>
                       <td>{item.language}</td>
 
                       <td onClick={() => this.initPortfolioEdit(item)} style={{ display: user.role === 'admin' ? 'table-cell' : 'none' }}><i className="far fa-edit"></i></td>

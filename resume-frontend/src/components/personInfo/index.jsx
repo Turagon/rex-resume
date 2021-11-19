@@ -14,7 +14,7 @@ export default class PersonInfo extends Component {
   }
 
   componentDidMount() {
-    const { token } = store.getState().generalReducer
+    const token = localStorage.getItem('token')
     if (!token) {
       return this.props.history.push('/')
     }
@@ -35,7 +35,7 @@ export default class PersonInfo extends Component {
 
   deletePersonItem = e => {
     const id = Number(e.target.getAttribute("data-id"))
-    const { token } = store.getState().generalReducer
+    const token = localStorage.getItem('token')
     const config = {
       headers: {
         Authorization: `Bearer ${token}`
@@ -89,7 +89,7 @@ export default class PersonInfo extends Component {
           <span>{errorMessage}</span>
           <button type="button" onClick={() => this.setState({ displayStatus: true })}>X</button>
         </div>
-        <div className="user-table">
+        <div className="personInfo-table">
           <table>
             <thead>
               <tr>

@@ -20,8 +20,8 @@ export default class UserModal extends Component {
     if (!password || (password !== checkPassword)) {
       return this.setState({errorMessage: "password inputs are not matched", displayStatus: false})
     }
+    const token = localStorage.getItem('token')
     if (id) {
-      const { token } = store.getState().generalReducer
       axios({
         method: 'put',
         url: `http://localhost:3001/user/${id}`,
@@ -47,7 +47,6 @@ export default class UserModal extends Component {
       })
       .catch(err => console.log(err))
     } else {
-      const token = localStorage.getItem('token')
       axios({
         method: 'post',
         url: `http://localhost:3001/user`,

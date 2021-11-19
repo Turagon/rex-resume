@@ -1,18 +1,54 @@
-.user-table{
+.work-table{
   padding: 10px 10px;
 }
 
-.user-table table {
-  width: 60%;
+.work-table table {
+  width: 95%;
   text-align: center;
   font-size: 14px;
 }
 
-.user-table table i {
+.work-des-title {
+  width: 35%;
+}
+
+.work-table table .work-description {
+  height: 80px;
+  overflow:hidden;
+  overflow-y: scroll;
+  text-overflow: ellipsis;
+  text-align: left;
+  padding: 2px 4px 2px 4px;
+  display: -webkit-box;
+  white-space: normal;
+  -webkit-box-orient: vertical;
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.work-table table .work-description h5 {
+  margin: 3px 0 3px 0;
+}
+
+.work-table table .work-description ul {
+  margin: 3px 0 3px 0;
+  padding-left: 18px;
+}
+
+::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+/* ::-webkit-scrollbar-thumb {
+    background: #FF0000;
+} */
+
+.work-table table i {
   color: grey;
 }
 
-.user-table .add-btn {
+.work-table .add-btn {
   margin-left: 60%;
   transform: translateX(-110%);
   margin-top: 15px;

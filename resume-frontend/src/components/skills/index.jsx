@@ -14,7 +14,7 @@ export default class Skill extends Component {
   }
 
   componentDidMount() {
-    const { token } = store.getState().generalReducer
+    const token = localStorage.getItem('token')
     if (!token) {
       return this.props.history.push('/')
     }
@@ -35,7 +35,7 @@ export default class Skill extends Component {
 
   deleteSkillItem = e => {
     const id = Number(e.target.getAttribute("data-id"))
-    const { token } = store.getState().generalReducer
+    const token = localStorage.getItem('token')
     const config = {
       headers: {
         Authorization: `Bearer ${token}`
