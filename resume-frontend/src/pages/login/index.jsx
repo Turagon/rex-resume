@@ -33,7 +33,6 @@ export default class Login extends Component {
       const token = response.data.token
       const { name, type } = response.data.user
       store.dispatch({type: 'editGeneralUsername', data: name})
-      // store.dispatch({type: 'editToken', data: token})
       localStorage.setItem('token', token)
       
       if (type === 'user') {

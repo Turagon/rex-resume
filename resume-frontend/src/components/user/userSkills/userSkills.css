@@ -1,0 +1,15 @@
+.user-skills {
+  /* border: 2px solid #ff6600; */
+  background-color: #936639;
+  color: white;
+}
+
+.user-skills h5 {
+  margin: 6px 0 4px 3px;
+}
+
+.user-skills ul {
+  margin: 3px 0 24px 3px;
+  padding-left: 24px;
+  font-size: 12px;
+}

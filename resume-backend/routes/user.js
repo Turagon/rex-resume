@@ -1,12 +1,7 @@
 const router = require('express').Router()
-const userController = require('../controllers/userController')
+const endUserController = require('../controllers/endUserController')
 
-router.get('/', userController.getUsers)
-
-router.put('/:id', userController.editUser)
-
-router.post('/', userController.addUser)
-
-router.delete('/:id', userController.deleteUser)
+router.get('/person', endUserController.getPersonInfo)
+router.get('/skill', endUserController.getSkills)
 
 module.exports = router
