@@ -4,8 +4,7 @@ const workController = {
   getWorks: async (req, res) => {
     try {
       const works = await Work.findAll({ raw: true })
-      const user = req.user.toJSON()
-      return res.json({ works, user })
+      return res.json({ works })
     }
     catch { err => console.log(err) }
   },

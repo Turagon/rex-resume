@@ -9,8 +9,6 @@ export default class Login extends Component {
     password: '',
     nameWarning: false,
     passwordWarning: false,
-    displayStatus: true,
-    loginWarning: ''
   }
 
   handleSubmit = e => {
@@ -27,7 +25,9 @@ export default class Login extends Component {
     axios.post('http://localhost:3001', {name, password})
     .then(response => {
       if (response.data.status === 'error') {
-        return this.setState({ loginWarning: response.data.message, displayStatus: false})
+        store.dispatch({ type: 'editError', data: response.data.message })
+        store.dispatch({ type: 'editDisplay', data: false })
+        return
       }
 
       const token = response.data.token
@@ -38,11 +38,18 @@ export default class Login extends Component {
       if (type === 'user') {
         return this.props.history.push('/user') 
       } else if (type === 'admin') {
+        this.resetError()
         return this.props.history.push('/admin') 
       }
     })
     .catch(err => console.log(err))
   } 
+
+  resetError = () => {
+    store.dispatch({ type: 'editError', data: '' })
+    store.dispatch({ type: 'editDisplay', data: true })
+    return 
+  }
 
   handleNameChange = e => {
     const name = e.target.value
@@ -55,14 +62,14 @@ export default class Login extends Component {
   }
 
   render() {
-    const { nameWarning, passwordWarning, loginWarning, displayStatus } = this.state
-
+    const { nameWarning, passwordWarning } = this.state
+    const { error, display } = store.getState().generalReducer
     return (
       <div className="login">
         <h3>Thank you for visiting my resume</h3>
-        <div style={{ display: displayStatus ? 'none' : 'block' }} className="login-warning">
-          <span>{loginWarning}</span>
-          <button onClick={() => this.setState({displayStatus: true})}>X</button>
+        <div style={{ display: display ? 'none' : 'block' }} className="login-warning">
+          <span>{error}</span>
+          <button onClick={this.resetError}>X</button>
         </div>
         <form onSubmit={this.handleSubmit} className="login-form">
           <div className="input-name-box">

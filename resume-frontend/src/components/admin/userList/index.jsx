@@ -14,6 +14,7 @@ export default class UserList extends Component {
   componentDidMount () {
     const token = localStorage.getItem('token')
     if (!token) {
+      this.handleError('Please login first')
       return this.props.history.push('/')
     }
 
@@ -25,6 +26,11 @@ export default class UserList extends Component {
       
     axios.get(`${adminBaseURL}/user`, config)
     .then(response => {
+      if (response.data.status === 'error') {
+        this.handleError(response.data.message)
+        return this.props.history.push('/')
+      }
+
       const { users, user} = response.data
       store.dispatch({ type: 'editUser', data: user })
       this.setState({ users })
@@ -49,14 +55,22 @@ export default class UserList extends Component {
         users = users.filter(item => item.id !== id)
         return this.setState({ users })
       } else {
-        return store.dispatch({ type: 'editErrorMessage', data: 'Oops! Our system got some difficulties, please try later.' }, { type: 'editDisplayStatus', data: false })
+        return this.handleError('Operation failed')
       }
     })
     .catch(err => console.log(err))
   }
 
   handleError = (error) => {
-    return store.dispatch({ type: 'editErrorMessage', data: error }, { type: 'editDisplayStatus', data: false })
+    store.dispatch({ type: 'editError', data: error })
+    store.dispatch({ type: 'editDisplay', data: false })
+    return
+  }
+
+  resetError = () => {
+    store.dispatch({ type: 'editError', data: '' })
+    store.dispatch({ type: 'editDisplay', data: true })
+    return
   }
 
   initUserEdit = (item) => {
@@ -85,12 +99,12 @@ export default class UserList extends Component {
 
   render() {
     const { users } = this.state
-    const { user, open, errorMessage, displayStatus } = store.getState().generalReducer
+    const { user, open, error, display } = store.getState().generalReducer
     return (
       <div>
-        <div className="error-message" style={{ display: displayStatus ? 'none' : 'block' }}>
-          <span>{errorMessage}</span>
-          <button type="button" onClick={() => this.setState({ displayStatus: true })}>X</button>
+        <div className="error-message" style={{ display: display ? 'none' : 'block' }}>
+          <span>{error}</span>
+          <button type="button" onClick={this.resetError}>X</button>
         </div>
         <div className="user-table">
           <table>

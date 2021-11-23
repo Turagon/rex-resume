@@ -1,0 +1,14 @@
+.user-coverLetter {
+  padding: 8px 6px 6px 0;
+}
+
+.user-letter-content {
+  border: 2px solid lightgrey;
+  padding: 0 0 0 6px;
+  height: 380px;
+  overflow:hidden;
+  overflow-y: scroll;
+  -webkit-box-orient: vertical;
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}

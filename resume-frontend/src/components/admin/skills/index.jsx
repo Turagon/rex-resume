@@ -9,15 +9,13 @@ const { adminBaseURL } = store.getState().generalReducer
 export default class Skill extends Component {
   state = {
     skills: [],
-    user: {},
-    open: false, //switch modal open
-    errorMessage: '', //store error msg
-    displayStatus: true //switch warning display which is from server
+    open: false //switch modal open
   }
 
   componentDidMount() {
     const token = localStorage.getItem('token')
     if (!token) {
+      this.handleError('Please login first')
       return this.props.history.push('/')
     }
     
@@ -29,8 +27,8 @@ export default class Skill extends Component {
 
     axios.get(`${adminBaseURL}/skill`, config)
       .then(response => {
-        const { skills, user } = response.data
-        this.setState({ skills, user })
+        const { skills } = response.data
+        this.setState({ skills })
       })
       .catch(err => console.log(err))
   }
@@ -52,10 +50,22 @@ export default class Skill extends Component {
           skills = skills.filter(item => item.id !== id)
           return this.setState({ skills })
         } else {
-          return this.setState({ displayStatus: false, errorMessage: 'Oops! Our system got some difficulties, please try later.' })
+          return this.handleError('Operation failed')
         }
       })
       .catch(err => console.log(err))
+  }
+
+  handleError = (error) => {
+    store.dispatch({ type: 'editError', data: error })
+    store.dispatch({ type: 'editDisplay', data: false })
+    return
+  }
+
+  resetError = () => {
+    store.dispatch({ type: 'editError', data: '' })
+    store.dispatch({ type: 'editDisplay', data: true })
+    return
   }
 
   initSkillEdit = (item) => {
@@ -83,13 +93,14 @@ export default class Skill extends Component {
   }
 
   render() {
-    const { skills, user, open, errorMessage, displayStatus } = this.state
+    const { skills, open } = this.state
+    const { user, error, display } = store.getState().generalReducer
 
     return (
       <div>
-        <div className="error-message" style={{ display: displayStatus ? 'none' : 'block' }}>
-          <span>{errorMessage}</span>
-          <button type="button" onClick={() => this.setState({ displayStatus: true })}>X</button>
+        <div className="error-message" style={{ display: display ? 'none' : 'block' }}>
+          <span>{error}</span>
+          <button type="button" onClick={this.resetError}>X</button>
         </div>
         <div className="user-table">
           <table>

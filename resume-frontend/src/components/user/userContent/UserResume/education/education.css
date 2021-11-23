@@ -1,0 +1,56 @@
+.user-educations-box {
+  border: 2px solid gray;
+  margin-top: 12px;
+}
+
+.user-educations {
+  padding: 3px;
+  height: 220px;
+  overflow:hidden;
+  overflow-y: scroll;
+  -webkit-box-orient: vertical;
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.user-educations-sub {
+  margin: 0;
+  padding: 3px;
+  color: white;
+  background-color: #bb3e03;
+}
+
+.user-period {
+  display: flex;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.user-edu {
+  width: 100%;
+}
+
+.user-major-degree {
+  display: flex;
+}
+
+.user-jobtitle, .user-duration, .user-major {
+  width: 40%;
+}
+
+.user-education {
+  height: 60px;
+  border: 1px solid lightgrey;
+  margin-bottom: 8px;
+  padding: 3px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}

@@ -1,5 +1,5 @@
 
-const initGeneralState = { user: '', open: false, errorMessage: '', displayStatus: true, adminBaseURL: 'http://localhost:3001/admin', userBaseURL: 'http://localhost:3001/user' }
+const initGeneralState = { user: '', open: false, error: '', display: true, adminBaseURL: 'http://localhost:3001/admin', userBaseURL: 'http://localhost:3001/user' }
 export default function generalReducer(preState = initGeneralState, action) {
   const { type, data } = action
 
@@ -21,6 +21,14 @@ export default function generalReducer(preState = initGeneralState, action) {
 
     case 'editOpen':
       preState.open = data
+      return preState
+
+    case 'editError':
+      preState.error = data
+      return preState
+
+    case 'editDisplay':
+      preState.display = data
       return preState
 
     default:

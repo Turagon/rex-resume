@@ -14,7 +14,7 @@ import './admin.css'
 export default class Admin extends Component {
 
   handleLogout = () => {
-    store.dispatch({ type: 'editToken', data: '' })
+    localStorage.removeItem('token')
     return this.props.history.push('/')
   }
 

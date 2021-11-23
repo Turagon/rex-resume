@@ -4,8 +4,7 @@ const skillController = {
   getSkills: async (req, res) => {
     try {
       const skills = await Skill.findAll({ raw: true })
-      const user = req.user.toJSON()
-      return res.json({ skills, user })
+      return res.json({ skills })
     }
     catch { err => console.log(err) }
   },
