@@ -11,4 +11,8 @@ router.get('/work', endUserController.getWorks)
 
 router.get('/education', endUserController.getEducations)
 
+router.get('/portfolio', endUserController.getPortfolios)
+
+router.get('/certificate', endUserController.getCertificates)
+
 module.exports = router

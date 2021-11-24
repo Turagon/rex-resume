@@ -1,0 +1,39 @@
+.user-portfolio {
+  padding: 12px 6px 6px 12px;
+}
+
+.user-portfolio-container {
+  border: 2px solid lightgrey;
+  padding: 3px;
+}
+
+.user-portfolio-box {
+  border: 1px solid lightgrey
+}
+
+.user-portfolio-upper {
+  display: flex;
+}
+
+.user-portfolio-imgBox {
+  width: 80px;
+  height: 80px;
+}
+
+.user-portfolio-imgBox img {
+  width: 80px;
+  height: 80px;
+}
+
+.user-portfolio-linkBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-left: 3%;
+  font-size: 12px;
+}
+
+.portfolio-content {
+  padding: 3px;
+  margin-top: 6px;
+}

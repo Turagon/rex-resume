@@ -6,6 +6,7 @@ const person = require('./adminRoutes/person')
 const skill = require('./adminRoutes/skill')
 const letter = require('./adminRoutes/letter')
 const portfolio = require('./adminRoutes/portfolio')
+const certificate = require('./adminRoutes/certificate')
 const { roleVerify } = require('../config/helps')
 
 router.use('/user', roleVerify, user)
@@ -15,5 +16,6 @@ router.use('/person', roleVerify, person)
 router.use('/skill', roleVerify, skill)
 router.use('/letter', roleVerify, letter)
 router.use('/portfolio', roleVerify, portfolio)
+router.use('/certificate', roleVerify, certificate)
 
 module.exports = router

@@ -1,0 +1,100 @@
+td img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.certificate-table{
+  padding: 10px 10px;
+}
+
+.certificate-table table {
+  width: 95%;
+  text-align: center;
+  font-size: 14px;
+}
+
+.certificate-table table i {
+  color: grey;
+}
+
+.certificate-table .add-btn {
+  margin-left: 60%;
+  transform: translateX(-110%);
+  margin-top: 15px;
+  width: 15%;
+  height: 25px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  background-color: #ff6600;
+}
+
+/* for modal */
+.certificateModal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 470px;
+  padding: 10px;
+  top: 52%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background-color: white;
+  border-radius: 10px;
+}
+
+.certificateModal .close-btn {
+  width: 10%;
+  align-self: end;
+}
+
+.certificateModal .close-btn button {
+  background-color: white;
+  border: none;
+  font-size: 20px;
+  color: grey;
+  font-weight: bold;
+}
+
+.certificateModal .userInfo-form div {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: grey;
+}
+
+.certificateModal .userInfo-form div input {
+  margin-top: 2px;
+  border: none;
+  border-bottom: 2px solid grey;
+}
+
+.img-input {
+  position: relative;
+}
+
+.img-input img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.img-input label {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  font-size: 40px;
+  color: lightgrey;
+  text-align: center;
+  line-height: 80px;
+}
+
+.img-input input {
+  display: none;
+}
+

@@ -9,6 +9,7 @@ import PersonInfo from '../../components/admin/personInfo'
 import Skill from '../../components/admin/skills'
 import CoverLetter from '../../components/admin/coverLetter'
 import Portfolio from '../../components/admin/portfolios'
+import Certificate from '../../components/admin/certificates'
 import './admin.css'
 
 export default class Admin extends Component {
@@ -38,6 +39,7 @@ export default class Admin extends Component {
           <MyNavLink to='/admin/personInfo'>Personal Info</MyNavLink>
           <MyNavLink to='/admin/portfolio'>Portfolios</MyNavLink>
           <MyNavLink to='/admin/coverletter'>Cover Letter</MyNavLink>
+          <MyNavLink to='/admin/certificate'>Certificates</MyNavLink>
         </div>
         <div>
           <Switch>
@@ -48,6 +50,7 @@ export default class Admin extends Component {
             <Route path="/admin/personInfo" component={PersonInfo} />
             <Route path="/admin/portfolio" component={Portfolio} />
             <Route path="/admin/coverletter" component={CoverLetter} />
+            <Route path="/admin/certificate" component={Certificate} />
             <Redirect to="/admin/user" />
           </Switch>
         </div>

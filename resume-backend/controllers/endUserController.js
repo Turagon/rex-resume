@@ -3,6 +3,7 @@ const Skill = require('../models').Skill
 const CoverLetter = require('../models').CoverLetter
 const Work = require('../models').Work
 const Education = require('../models').Education
+const Portfolio = require('../models').Portfolio
 
 const endUserController = {
   getPersonInfo: async (req, res) => {
@@ -37,7 +38,12 @@ const endUserController = {
 
   getWorks: async (req, res) => {
     try {
-      const works = await Work.findAll()
+      let works = ''
+      if (req.headers['accept-language'].slice(0, 2) === 'en') {
+        works = await Work.findAll({ where: { language: 'English' } })
+      } else {
+        works = await Work.findAll({ where: { language: 'Chinese' } })
+      }
       return res.json({ works })
     }
     catch { err => console.log(err) }
@@ -45,10 +51,32 @@ const endUserController = {
 
   getEducations: async (req, res) => {
     try {
-      const educations = await Education.findAll()
+      let educations = ''
+      if (req.headers['accept-language'].slice(0, 2) === 'en') {
+        educations = await Education.findAll({ where: { language: 'English' } })
+      } else {
+        educations = await Education.findAll({ where: { language: 'Chinese' } })
+      }
       return res.json({ educations })
     }
     catch { err => console.log(err) }
+  },
+
+  getPortfolios: async (req, res) => {
+    try {
+      let portfolios = ''
+      if (req.headers['accept-language'].slice(0, 2) === 'en') {
+        portfolios = await Portfolio.findAll({ where: { language: 'English' } })
+      } else {
+        portfolios = await Portfolio.findAll({ where: { language: 'Chinese' } })
+      }
+      return res.json({ portfolios })
+    }
+    catch { err => console.log(err) }
+  },
+
+  getCertificates: async (req, res) => {
+    
   }
 }
 
