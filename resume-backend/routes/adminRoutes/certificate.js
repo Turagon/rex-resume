@@ -1,7 +1,7 @@
 const router = require('express').Router()
-const certificateController = require('../../controllers/certificateController')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
+const certificateController = require('../../controllers/certificateController')
 
 router.get('/', certificateController.getCertificates)
 

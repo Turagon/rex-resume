@@ -4,6 +4,7 @@ const CoverLetter = require('../models').CoverLetter
 const Work = require('../models').Work
 const Education = require('../models').Education
 const Portfolio = require('../models').Portfolio
+const Certificate = require('../models').Certificate
 
 const endUserController = {
   getPersonInfo: async (req, res) => {
@@ -76,7 +77,11 @@ const endUserController = {
   },
 
   getCertificates: async (req, res) => {
-    
+    try {
+      const certificates = await Certificate.findAll({ raw: true, nest: true, plain: false })
+      return res.json({ certificates })
+    }
+    catch { err => console.log(err) }
   }
 }
 
