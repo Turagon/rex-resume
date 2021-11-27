@@ -27,7 +27,6 @@ export default class Admin extends Component {
         <header className="admin-header">
           <div className="admin-header-box">
             <span>{username}</span>
-            <MyNavLink to='/user'>User Page</MyNavLink>
             <button onClick={this.handleLogout}><i className="fas fa-sign-out-alt"></i></button>
           </div>
         </header>

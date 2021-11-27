@@ -10,9 +10,6 @@ export default class UserSkills extends Component {
 
   componentDidMount () {
     const token = localStorage.getItem('token')
-    if (!token) {
-      return this.props.history.push('/')
-    }
 
     const config = {
       headers: {
@@ -22,6 +19,7 @@ export default class UserSkills extends Component {
 
     axios.get(`${userBaseURL}/skill`, config)
       .then(response => {
+        if (response.data.status === 'error') return
         const { skills } = response.data
         this.setState({ skills })
       })

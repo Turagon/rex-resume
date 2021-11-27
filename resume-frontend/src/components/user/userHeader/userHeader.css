@@ -34,9 +34,21 @@
   margin-top: 10px;
 }
 
-.user-info div {
-  width: 100%;
+.user-person-box {
   display: flex;
+}
+
+.user-info .user-person-info {
+  width: 90%;
+  display: flex;
+}
+
+.user-logout {
+  width: 10%;
+}
+
+.user-logout i {
+  color: white;
 }
 
 .user-info div span {
